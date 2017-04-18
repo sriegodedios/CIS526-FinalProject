@@ -1,0 +1,27 @@
+{
+  "name": "whiteboard",
+  "version": "1.0.0",
+  "description": "A webpage with a blank canvas that users can connect to and draw on. A topic is given to the users, and the board is cleared after a certain amount of time.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LaneEvans/CIS526-FinalProject.git"
+  },
+  "keywords": [
+    "Socket.io",
+    "node"
+  ],
+  "author": "Ryan Bates, Lane Evans, Shane Riegodedios",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LaneEvans/CIS526-FinalProject/issues"
+  },
+  "homepage": "https://github.com/LaneEvans/CIS526-FinalProject#readme",
+  "dependencies": {
+    "socket.io": "1.7.3"
+  }
+}

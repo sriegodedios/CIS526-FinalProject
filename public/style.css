@@ -1,0 +1,28 @@
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#whiteboard{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.colors{
+  position: fixed;
+}
+
+.color{
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+}
+
+.color.black{ background-color: black;}
+.color.purple{background-color: purple;}
+.color.red{background-color: red;}
+.color.yellow{background-color: yellow;}
+.color.blue{background-color: blue;}
+.color.green{background-color: green;}
