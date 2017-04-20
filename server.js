@@ -17,8 +17,27 @@ http.listen(PORT, function(){
 
 app.use(express.static('public'));
 
-function onConnection(socket){
-  socket.on('draw_line', (data) => socket.broadcast.emit('draw_line', data));
-}
+var numUsers = 0;
 
-io.on('connection', onConnection);
+io.on('connection', function(socket){
+  numUsers++;
+  io.emit('userCount', numUsers);
+  console.log("User connected, total: " + numUsers);
+
+  // Emit lines drawn by users
+  socket.on('draw_line', function(data){
+    socket.broadcast.emit('draw_line', data);
+  });
+
+  // Emit message
+  socket.on('message', function(text){
+    io.emit('message', text);
+  });
+
+  // On user disconnect
+  socket.on('disconnect', function(){
+    numUsers--;
+    io.emit('userCount', numUsers);
+    console.log("User disconnected, total: ", numUsers);
+  })
+});

@@ -8,8 +8,9 @@
   <body>
     <h1 class="text-center">The Whiteboard</h1>
     <hr>
-    <canvas id="whiteboard"></canvas>
-
+    <div>
+      <canvas id="whiteboard"></canvas>
+    </div>
     <div class="colors">
       <div class="color black"></div>
       <div class="color purple"></div>
@@ -18,10 +19,23 @@
       <div class="color yellow"></div>
       <div class="color green"></div>
     </div>
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+    <div class="chatbox">
+      <ul id='message-log'>
+      </ul>
+      <div>
+      <input type='text' id='chat-text'></input>
+      <button id='chat-send'>Send</button>
+    </div>
+    </div>
+    <footer>
+      <div class="bottom-align">
+        <h3 id="numUsers"></h3>
+      </div>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
       <script src="http://localhost:3433/socket.io/socket.io.js"></script>
     <script src='script.js' type='text/javascript'></script>
   </body>

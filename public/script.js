@@ -96,4 +96,19 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
+
+  socket.on('userCount', function(count){
+    $('#numUsers').text("Number of users: " + count);
+  });
+
+  socket.on('message', function(message){
+    var li = $('<li>').text(message).appendTo('#message-log').text(message.user).appendTo(li);
+  });
+
+  $('#chat-send').on('click', function(){
+    var text = $('#chat-text').val();
+    socket.emit('message', text);
+    $('#chat-text').val('');
+  });
+
 })();
