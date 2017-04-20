@@ -4,12 +4,14 @@
   var colors = $('.color')
   var context = canvas.getContext('2d');
 
+  // Current color
   var current = {
     color: 'black'
   };
 
   var drawing = false;
 
+  // Add events to canvas
   canvas.addEventListener('mousedown', mouseDown, false);
   canvas.addEventListener('mouseup', mouseUp, false);
   canvas.addEventListener('mouseout', mouseUp, false);
@@ -19,25 +21,27 @@
     colors[i].addEventListener('click', colorUpdate, false);
   }
 
-  socket.on('drawing', drawingEvent);
+  socket.on('draw_line', drawingEvent);
 
   window.addEventListener('resize', resize, false);
   resize();
 
+  //Draw Line
   function draw(x0, y0, x1, y1, color, emit){
     context.beginPath();
     context.moveTo(x0, y0);
     context.lineTo(x1, y1);
     context.strokeStyle = color;
-    context.lineWidth = 2;
+    context.lineWidth = 3;
     context.stroke();
     context.closePath();
 
+    // Get size of canvas
     if(!emit){ return; }
     var width = canvas.width;
     var height = canvas.height;
 
-    socket.emit('drawing', {
+    socket.emit('draw_line', {
       x0: x0 / width,
       y0: y0 / height,
       x1: x1 / width,
@@ -54,9 +58,8 @@
 
   function mouseUp(e){
     if(!drawing){return; }
+    drawing = false;
     draw(current.x, current.y, e.clientX, e.clientY, current.color, true);
-    current.x = e.clientX;
-    current.y = e.clientY;
   }
 
   function mouseMove(e){
@@ -70,6 +73,7 @@
     current.color = e.target.className.split(' ')[1];
   }
 
+  // Limit the number of events per second
   function throttle(callback, delay){
     var previousCall = new Date().getTime();
     return function(){
