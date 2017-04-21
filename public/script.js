@@ -17,12 +17,15 @@
   canvas.addEventListener('mouseout', mouseUp, false);
   canvas.addEventListener('mousemove', throttle(mouseMove, 10), false);
 
+  // Changes users line color
   for(var i=0; i < colors.length; i++){
     colors[i].addEventListener('click', colorUpdate, false);
   }
 
+  // Draws line
   socket.on('draw_line', drawingEvent);
 
+  // Checks to see if window has been resized
   window.addEventListener('resize', resize, false);
   resize();
 
@@ -41,6 +44,7 @@
     var width = canvas.width;
     var height = canvas.height;
 
+    // Draw from (x0, y0) to (x1, y1)
     socket.emit('draw_line', {
       x0: x0 / width,
       y0: y0 / height,
@@ -50,18 +54,20 @@
     });
   }
 
+  // Begin drawing on click at current position
   function mouseDown(e){
     drawing = true;
     current.x = e.clientX;
     current.y = e.clientY;
   }
 
+  // Stop drawing when mouse is released
   function mouseUp(e){
     if(!drawing){return; }
     drawing = false;
     draw(current.x, current.y, e.clientX, e.clientY, current.color, true);
   }
-
+ // Draw where mouse is moved
   function mouseMove(e){
     if(!drawing){return; }
     draw(current.x, current.y, e.clientX, e.clientY, current.color, true);
@@ -69,6 +75,7 @@
     current.y = e.clientY;
   }
 
+  // Updates users color
   function colorUpdate(e){
     current.color = e.target.className.split(' ')[1];
   }
@@ -85,26 +92,30 @@
       }
     };
   }
-
+ // Draws lines based on window size
   function drawingEvent(data){
     var width = canvas.width;
     var height = canvas.height;
     draw(data.x0 * width, data.y0 * height, data.x1 * width, data.y1 * height, data.color);
   }
 
+  // Updates size of canvas on window resize
   function resize(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
 
+  // Displays the number of user online
   socket.on('userCount', function(count){
     $('#numUsers').text("Number of users: " + count);
   });
 
+  // Appends messages to an li tag and then to the unordered list
   socket.on('message', function(message){
     var li = $('<li>').text(message).appendTo('#message-log').text(message.user).appendTo(li);
   });
 
+  // Emits the message when the send button is clicked
   $('#chat-send').on('click', function(){
     var text = $('#chat-text').val();
     socket.emit('message', text);
