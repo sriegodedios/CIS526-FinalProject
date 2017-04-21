@@ -1,3 +1,9 @@
+$(document).ready(function(){
+  var username = "";
+  //$('.main-page').hide();
+  //$("body").load('username-form.html')
+});
+
 (function(){
   var socket = io();
   var canvas = $('#whiteboard')[0];
