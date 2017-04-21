@@ -15,10 +15,12 @@ http.listen(PORT, function(){
   console.log("Listening on port", PORT);
 });
 
+// Load in files
 app.use(express.static('public'));
 
 var numUsers = 0;
 
+// When a user connects
 io.on('connection', function(socket){
   numUsers++;
   io.emit('userCount', numUsers);
