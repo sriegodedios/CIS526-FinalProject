@@ -6,12 +6,15 @@ html, body{
 }
 
 #whiteboard{
-  height: 100%;
+  height: 85%;
   width: 80%;
   position: absolute;
   border: solid 2px black;
   border-radius: 25px;
+
 }
+
+
 
 .colors{
   position: fixed;
@@ -25,6 +28,7 @@ html, body{
 
 .chatbox{
   text-align: right;
+
 }
 
 #message-log{

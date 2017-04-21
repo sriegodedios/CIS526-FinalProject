@@ -7,26 +7,48 @@
   </head>
   <body>
     <h1 class="text-center">The Whiteboard</h1>
-    <hr>
-    <div>
-      <canvas id="whiteboard"></canvas>
-    </div>
-    <div class="colors">
-      <div class="color black"></div>
-      <div class="color purple"></div>
-      <div class="color red"></div>
-      <div class="color blue"></div>
-      <div class="color yellow"></div>
-      <div class="color green"></div>
-    </div>
-    <div class="chatbox">
-      <ul id='message-log'>
-      </ul>
-      <div>
-      <input type='text' id='chat-text'></input>
-      <button id='chat-send'>Send</button>
-    </div>
-    </div>
+    <div class="col-lg-12">
+
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              Canvas
+            </div>
+            <div class="panel-body" style="height: 500px;">
+
+              <canvas id="whiteboard"></canvas>
+
+              <div class="colors">
+                <div class="color black"></div>
+                <div class="color purple"></div>
+                <div class="color red"></div>
+                <div class="color blue"></div>
+                <div class="color yellow"></div>
+                <div class="color green"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Chat
+            </div>
+            <div class="panel-body">
+              <div class="chatbox">
+                <ul id='message-log'>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <input type='text' id='chat-text'></input>
+              <button id='chat-send'>Send</button>
+            </div>
+          </div>
+      </div>
+  </div>
+  </div>
     <footer>
       <div class="bottom-align">
         <h3 id="numUsers"></h3>
