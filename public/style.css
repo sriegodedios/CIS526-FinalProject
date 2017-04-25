@@ -7,9 +7,10 @@ html, body{
 
 #whiteboard{
   height: 85%;
-  width: 80%;
+  width: 92%;
   position: absolute;
-  border: solid 2px black;
+  /*border: solid 2px black;*/
+  background-color: #E3D8D5;
   border-radius: 25px;
 }
 
