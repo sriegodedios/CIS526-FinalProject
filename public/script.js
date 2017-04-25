@@ -1,4 +1,4 @@
-/* $(document).ready(function(){
+ /*$(document).ready(function(){
   var username = "";
   // Hide chat and whiteboard
   $('.main-page').hide();
@@ -8,12 +8,12 @@
   // Removes login screen when user presses Enter(keyCode: 13)
   $('.userform').on('keydown', function(e){
     if(e.keyCode == 13){
-
+      $('.remove-login').trigger('click');
     }
   });
 
   // Set username to textbox value
-  $('userform').on('input', function(){
+  $('.userform').on('input', function(){
     if($(this).val().length > 10){
       $(this).val(username);
       return;
@@ -22,20 +22,20 @@
     username = $(this).val().trim().replace(/\s/g, '');
     $(this).val(username);
 
-    $('username-tag').text(username);
+    $('.username-tag').text(username);
+
+    $('#remove-login').click(function(){
+      initBoard(username);
+    });
   });
 
 
-  // Remove login screen
-  $('.userform').click(function(){
-    $(this).hide();
-    startClient(username);
-  })
 
 });
 */
 
-(function(){
+(function (){
+  $('.main-page').css('visibility', 'visible');
   var socket = io();
   var canvas = $('#whiteboard')[0];
   var colors = $('.color')
@@ -167,9 +167,10 @@
 
   // Appends messages to an li tag and then to the unordered list
   socket.on('message', function(message){
-    var li = $('<li>').text(message.user);
-    li.text(message);
-    li.appendTo('#message-log');
+    var li = $('<li>')
+    .text(message.text)
+    .appendTo('#message-log');
+    $('<strong>').text(message.username).prependTo(li);
   });
 
   // Emits the message when the send button is clicked
@@ -177,6 +178,14 @@
     var text = $('#chat-text').val();
     socket.emit('message', text);
     $('#chat-text').val('');
+  });
+
+  $('#chat-text').keypress(function(e){
+    if(e.which === 13){
+      var text = $('#chat-text').val();
+      socket.emit('message', text);
+      $('#chat-text').val('');
+    }
   });
 
 })();

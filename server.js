@@ -30,7 +30,7 @@ io.on('connection', function(socket){
 
   //var nameTag = socket.handshake.query.nameTag.trim().replace(/\s/g, '');
   //nameTag = nameTag.substr(0, 10);
-  user = "User " + numUsers;
+  user = "User " + numUsers + ": ";
 
   // Emit lines drawn by users
   socket.on('draw_line', function(data){
@@ -48,8 +48,8 @@ io.on('connection', function(socket){
     var thisUser = userNames[socket.id];
 
     io.emit('message', {
-      'text': text,
-      'username': user
+      text: text,
+      username: user
     });
   });
 
