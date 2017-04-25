@@ -1,8 +1,39 @@
-$(document).ready(function(){
+/* $(document).ready(function(){
   var username = "";
-  //$('.main-page').hide();
-  //$("body").load('username-form.html')
+  // Hide chat and whiteboard
+  $('.main-page').hide();
+
+  $("body").load('username-form.html');
+
+  // Removes login screen when user presses Enter(keyCode: 13)
+  $('.userform').on('keydown', function(e){
+    if(e.keyCode == 13){
+
+    }
+  });
+
+  // Set username to textbox value
+  $('userform').on('input', function(){
+    if($(this).val().length > 10){
+      $(this).val(username);
+      return;
+    }
+
+    username = $(this).val().trim().replace(/\s/g, '');
+    $(this).val(username);
+
+    $('username-tag').text(username);
+  });
+
+
+  // Remove login screen
+  $('.userform').click(function(){
+    $(this).hide();
+    startClient(username);
+  })
+
 });
+*/
 
 (function(){
   var socket = io();
@@ -35,6 +66,15 @@ $(document).ready(function(){
   window.addEventListener('resize', resize, false);
   resize();
 
+  // Gets the position of the cursor
+  function getMousePos(canvas, e){
+    var rect = canvas.getBoundingClientRect();
+    return{
+        x: (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+      };
+  }
+
   //Draw Line
   function draw(x0, y0, x1, y1, color, emit){
     context.beginPath();
@@ -63,22 +103,31 @@ $(document).ready(function(){
   // Begin drawing on click at current position
   function mouseDown(e){
     drawing = true;
-    current.x = e.clientX;
-    current.y = e.clientY;
+    var pos = getMousePos(canvas, e);
+    posx = pos.x;
+    posy = pos.y;
+    current.x = posx;
+    current.y = posy;
   }
 
   // Stop drawing when mouse is released
   function mouseUp(e){
     if(!drawing){return; }
     drawing = false;
-    draw(current.x, current.y, e.clientX, e.clientY, current.color, true);
+    var pos = getMousePos(canvas, e);
+    posx = pos.x;
+    posy = pos.y;
+    draw(current.x, current.y, posx, posy, current.color, true);
   }
  // Draw where mouse is moved
   function mouseMove(e){
     if(!drawing){return; }
-    draw(current.x, current.y, e.clientX, e.clientY, current.color, true);
-    current.x = e.clientX;
-    current.y = e.clientY;
+    var pos = getMousePos(canvas, e);
+    posx = pos.x;
+    posy = pos.y;
+    draw(current.x, current.y, posx, posy, current.color, true);
+    current.x = posx;
+    current.y = posy;
   }
 
   // Updates users color
@@ -118,7 +167,9 @@ $(document).ready(function(){
 
   // Appends messages to an li tag and then to the unordered list
   socket.on('message', function(message){
-    var li = $('<li>').text(message).appendTo('#message-log').text(message.user).appendTo(li);
+    var li = $('<li>').text(message.user);
+    li.text(message);
+    li.appendTo('#message-log');
   });
 
   // Emits the message when the send button is clicked
