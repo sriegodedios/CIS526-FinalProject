@@ -19,7 +19,7 @@ http.listen(PORT, function(){
 app.use(express.static('public'));
 
 var numUsers = 0;
-var userNames = {};
+var userNames = ["Joe", "Bob", "Bilbo", "Henry", "Hank", "Sean", "Lane", "Krishane", "Ryan", "Shane", "Joe", "Evan", "Kyle", "Matt"];
 var user = '';
 
 // When a user connects
@@ -28,9 +28,9 @@ io.on('connection', function(socket){
   io.emit('userCount', numUsers);
   console.log("User connected, total: " + numUsers);
 
-  //var nameTag = socket.handshake.query.nameTag.trim().replace(/\s/g, '');
-  //nameTag = nameTag.substr(0, 10);
-  user = "User " + numUsers + ": ";
+  //Assing user a random username
+  var randName = userNames[Math.floor(Math.random() * userNames.length)];
+  user = randName + ": ";
 
   // Emit lines drawn by users
   socket.on('draw_line', function(data){
@@ -44,9 +44,6 @@ io.on('connection', function(socket){
       socket.disconnect();
       return;
     }
-
-    var thisUser = userNames[socket.id];
-
     io.emit('message', {
       text: text,
       username: user
