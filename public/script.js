@@ -152,29 +152,14 @@
     }
   });
 
-  function countdown(){
-    var time = $('#time');
-    var minutes;
-    var seconds;
-    var count = 300;
-    var timerId = setInterval(function(){
-      minutes = parseInt(count / 60, 10);
-      seconds = parseInt(count % 60, 10);
 
-      seconds = seconds < 10 ? "0" + seconds: seconds;
-      time.text(minutes + ":" + seconds);
-      count--;
-      if(count === -1){
-        clearInterval(timerId);
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        count = 300;
-      }
-    }, 1000);
-  }
-  countdown();
+  socket.on('timer', function(data){
+    var time =$("#time");
+    minutes = parseInt(data.countdown / 60, 10);
+    seconds = parseInt(data.countdown % 60, 10);
 
-  socket.on('countdown', function(){
-
+    seconds = seconds < 10 ? "0" + seconds: seconds;
+    time.text(minutes + ":" + seconds);
+    context.clearRect(0, 0, canvas.width, canvas.height);
   });
-
 })();

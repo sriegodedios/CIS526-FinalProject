@@ -22,6 +22,16 @@ var numUsers = 0;
 var userNames = ["Joe", "Bob", "Bilbo", "Henry", "Hank", "Sean", "Lane", "Krishane", "Ryan", "Shane", "Joe", "Evan", "Kyle", "Matt"];
 var user = '';
 
+var countdown = 10;
+
+setInterval(function(){
+  countdown--;
+  if(countdown === -1){
+    countdown = 10;
+  }
+  io.emit('timer', {countdown: countdown});
+}, 1000);
+
 // When a user connects
 io.on('connection', function(socket){
   numUsers++;
@@ -50,9 +60,6 @@ io.on('connection', function(socket){
     });
   });
 
-  socket.on('countdown', function(){
-    io.emit('countdown');
-  });
 
   // On user disconnect
   socket.on('disconnect', function(){
