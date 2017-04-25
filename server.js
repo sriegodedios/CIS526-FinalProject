@@ -50,6 +50,10 @@ io.on('connection', function(socket){
     });
   });
 
+  socket.on('countdown', function(){
+    io.emit('countdown');
+  });
+
   // On user disconnect
   socket.on('disconnect', function(){
     numUsers--;

@@ -173,4 +173,8 @@
   }
   countdown();
 
+  socket.on('countdown', function(){
+
+  });
+
 })();
