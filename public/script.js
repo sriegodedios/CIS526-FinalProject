@@ -1,39 +1,3 @@
- /*$(document).ready(function(){
-  var username = "";
-  // Hide chat and whiteboard
-  $('.main-page').hide();
-
-  $("body").load('username-form.html');
-
-  // Removes login screen when user presses Enter(keyCode: 13)
-  $('.userform').on('keydown', function(e){
-    if(e.keyCode == 13){
-      $('.remove-login').trigger('click');
-    }
-  });
-
-  // Set username to textbox value
-  $('.userform').on('input', function(){
-    if($(this).val().length > 10){
-      $(this).val(username);
-      return;
-    }
-
-    username = $(this).val().trim().replace(/\s/g, '');
-    $(this).val(username);
-
-    $('.username-tag').text(username);
-
-    $('#remove-login').click(function(){
-      initBoard(username);
-    });
-  });
-
-
-
-});
-*/
-
 (function (){
   $('.main-page').css('visibility', 'visible');
   var socket = io();
@@ -187,5 +151,26 @@
       $('#chat-text').val('');
     }
   });
+
+  function countdown(){
+    var time = $('#time');
+    var minutes;
+    var seconds;
+    var count = 300;
+    var timerId = setInterval(function(){
+      minutes = parseInt(count / 60, 10);
+      seconds = parseInt(count % 60, 10);
+
+      seconds = seconds < 10 ? "0" + seconds: seconds;
+      time.text(minutes + ":" + seconds);
+      count--;
+      if(count === -1){
+        clearInterval(timerId);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        count = 300;
+      }
+    }, 1000);
+  }
+  countdown();
 
 })();
