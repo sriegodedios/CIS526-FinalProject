@@ -160,6 +160,10 @@
 
     seconds = seconds < 10 ? "0" + seconds: seconds;
     time.text(minutes + ":" + seconds);
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    console.log(data.countdown);
+    if(data.countdown === 0){
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
   });
 })();
