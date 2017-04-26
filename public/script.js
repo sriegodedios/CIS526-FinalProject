@@ -1,5 +1,6 @@
+var name;
+
 (function (){
-  $('.main-page').css('visibility', 'visible');
   var socket = io();
   var canvas = $('#whiteboard')[0];
   var colors = $('.color')
@@ -11,6 +12,9 @@
   };
 
   var drawing = false;
+
+  name = window.prompt("Enter your username: ");
+
 
   // Add events to canvas
   canvas.addEventListener('mousedown', mouseDown, false);
@@ -45,7 +49,7 @@
     context.moveTo(x0, y0);
     context.lineTo(x1, y1);
     context.strokeStyle = color;
-    context.lineWidth = 3;
+    context.lineWidth = 7;
     context.stroke();
     context.closePath();
 
@@ -97,6 +101,9 @@
   // Updates users color
   function colorUpdate(e){
     current.color = e.target.className.split(' ')[1];
+    if(e.target.className.split(' ')[1] === 'eraser'){
+      current.color = ('#E3D8D5');
+    }
   }
 
   // Limit the number of events per second
@@ -124,17 +131,37 @@
     canvas.height = window.innerHeight;
   }
 
+  $('#chat-text').keyup(function(){
+    socket.emit('typing', {
+      name: name
+    });
+  });
+
+  socket.on('typing', function(data){
+    $("#typing").text(data.name + " is typing");
+    setTimeout(function(){
+      $("#typing").text('');
+    }, 2000);
+  });
+
   // Displays the number of user online
   socket.on('userCount', function(count){
     $('#numUsers').text("Number of users: " + count);
   });
 
+  // Emits a welcome message
+  socket.on('welcome', function(message){
+    $('<li>').attr('id', 'welcome-text').text(message + name).appendTo('#message-log');
+    $('<hr>').appendTo("#message-log");
+  });
+
   // Appends messages to an li tag and then to the unordered list
   socket.on('message', function(message){
     var li = $('<li>')
+    .addClass('messages')
     .text(message.text)
     .appendTo('#message-log');
-    $('<strong>').text(message.username).prependTo(li);
+    $('<strong>').text(name + ":").prependTo(li);
   });
 
   // Emits the message when the send button is clicked
@@ -156,14 +183,16 @@
  // Displays the countdown in (m:s) and clears canvas when timer is 0
   socket.on('timer', function(data){
     var time =$("#time");
+    var topic = $('#topic');
     minutes = parseInt(data.countdown / 60, 10);
     seconds = parseInt(data.countdown % 60, 10);
 
     seconds = seconds < 10 ? "0" + seconds: seconds;
     time.text(minutes + ":" + seconds);
+    topic.text("Topic: " + data.topic);
     if(data.countdown === 0){
       context.clearRect(0, 0, canvas.width, canvas.height);
     }
-
   });
+
 })();

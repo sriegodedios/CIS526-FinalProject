@@ -22,16 +22,23 @@ var numUsers = 0;
 var userNames = ["Joe", "Bob", "Bilbo", "Henry", "Hank", "Sean", "Lane", "Krishane", "Ryan", "Shane", "Joe", "Evan", "Kyle", "Matt"];
 var user = '';
 
+// Array of topics
+var topics = ["Football", "Basketball", "Soccer", "Video Games", "Baseball", "Hockey", "Bitcoin", "Random"];
+var topic = topics[Math.floor(Math.random() * topics.length)];;
+
+
 // Seconds till canvas reset
-var countdown = 10;
+var countdown = 300;
 
 // Start counter
 setInterval(function(){
   countdown--;
   if(countdown === -1){
-    countdown = 10;
+    countdown = 300;
+    topic = topics[Math.floor(Math.random() * topics.length)];
   }
-  io.emit('timer', {countdown: countdown});
+  io.emit('timer', {countdown: countdown,
+  topic: topic});
 }, 1000);
 
 // When a user connects
@@ -41,12 +48,20 @@ io.on('connection', function(socket){
   console.log("User connected, total: " + numUsers);
 
   // Assign user a random username
-  var randName = userNames[Math.floor(Math.random() * userNames.length)];
-  user = randName + ": ";
+  //var randName = userNames[Math.floor(Math.random() * userNames.length)];
+  //user = randName;
+
+  // Emit welcome message
+  socket.emit('welcome', "Welcome ");
 
   // Emit lines drawn by users
   socket.on('draw_line', function(data){
     socket.broadcast.emit('draw_line', data);
+  });
+
+  socket.on('typing', function(data){
+    socket.emit('typing', data);
+    socket.broadcast.emit('typing', data);
   });
 
   // Emit message
@@ -56,7 +71,11 @@ io.on('connection', function(socket){
       socket.disconnect();
       return;
     }
-    io.emit('message', {
+    socket.emit('message', {
+      text: text,
+      username: user
+    });
+    socket.broadcast.emit('message', {
       text: text,
       username: user
     });
