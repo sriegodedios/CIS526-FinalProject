@@ -22,8 +22,10 @@ var numUsers = 0;
 var userNames = ["Joe", "Bob", "Bilbo", "Henry", "Hank", "Sean", "Lane", "Krishane", "Ryan", "Shane", "Joe", "Evan", "Kyle", "Matt"];
 var user = '';
 
+// Seconds till canvas reset
 var countdown = 10;
 
+// Start counter
 setInterval(function(){
   countdown--;
   if(countdown === -1){
@@ -38,7 +40,7 @@ io.on('connection', function(socket){
   io.emit('userCount', numUsers);
   console.log("User connected, total: " + numUsers);
 
-  //Assing user a random username
+  // Assign user a random username
   var randName = userNames[Math.floor(Math.random() * userNames.length)];
   user = randName + ": ";
 

@@ -144,6 +144,7 @@
     $('#chat-text').val('');
   });
 
+// Emits the message when enter is pressed while textbox has focus
   $('#chat-text').keypress(function(e){
     if(e.which === 13){
       var text = $('#chat-text').val();
@@ -152,7 +153,7 @@
     }
   });
 
-
+ // Displays the countdown in (m:s) and clears canvas when timer is 0
   socket.on('timer', function(data){
     var time =$("#time");
     minutes = parseInt(data.countdown / 60, 10);
@@ -160,7 +161,6 @@
 
     seconds = seconds < 10 ? "0" + seconds: seconds;
     time.text(minutes + ":" + seconds);
-    console.log(data.countdown);
     if(data.countdown === 0){
       context.clearRect(0, 0, canvas.width, canvas.height);
     }
