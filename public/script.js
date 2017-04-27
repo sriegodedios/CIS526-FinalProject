@@ -150,9 +150,17 @@ var name;
   });
 
   // Emits a welcome message
+
+  var count = 10;
+
   socket.on('welcome', function(message){
     $('<li>').attr('id', 'welcome-text').text(message + name).appendTo('#message-log');
-    $('<hr>').appendTo("#message-log");
+    setInterval(function(){
+      count--;
+      if(count === 0){
+        $("#welcome-text").text("");
+      }
+    }, 1000);
   });
 
   // Appends messages to an li tag and then to the unordered list
