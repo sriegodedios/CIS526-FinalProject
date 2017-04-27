@@ -67,18 +67,12 @@ io.on('connection', function(socket){
   // Emit message
   socket.on('message', function(text){
     // Check to see if message is a string
-    if(typeof(text) != 'string'){
+    /*if(typeof(text) != 'string'){
       socket.disconnect();
       return;
-    }
-    socket.emit('message', {
-      text: text,
-      username: user
-    });
-    socket.broadcast.emit('message', {
-      text: text,
-      username: user
-    });
+    }*/
+    socket.emit('message', text);
+    socket.broadcast.emit('message',text);
   });
 
 

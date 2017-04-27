@@ -141,7 +141,7 @@ var name;
     $("#typing").text(data.name + " is typing");
     setTimeout(function(){
       $("#typing").text('');
-    }, 2000);
+    }, 3000);
   });
 
   // Displays the number of user online
@@ -149,8 +149,7 @@ var name;
     $('#numUsers').text("Number of users: " + count);
   });
 
-  // Emits a welcome message
-
+  // Emits a welcome message and clears after 10 seconds
   var count = 10;
 
   socket.on('welcome', function(message){
@@ -164,18 +163,21 @@ var name;
   });
 
   // Appends messages to an li tag and then to the unordered list
-  socket.on('message', function(message){
+  socket.on('message', function(text){
     var li = $('<li>')
     .addClass('messages')
-    .text(message.text)
+    .text(text.text)
     .appendTo('#message-log');
-    $('<strong>').text(name + ":").prependTo(li);
+    $('<strong>').text(text.name + ": ").prependTo(li);
   });
 
   // Emits the message when the send button is clicked
   $('#chat-send').on('click', function(){
     var text = $('#chat-text').val();
-    socket.emit('message', text);
+    socket.emit('message', {
+    text: text,
+    name: name
+  });
     $('#chat-text').val('');
   });
 
@@ -183,7 +185,10 @@ var name;
   $('#chat-text').keypress(function(e){
     if(e.which === 13){
       var text = $('#chat-text').val();
-      socket.emit('message', text);
+      socket.emit('message', {
+        text: text,
+        name: name
+      });
       $('#chat-text').val('');
     }
   });
