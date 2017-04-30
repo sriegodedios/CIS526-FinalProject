@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/LaneEvans/CIS526-FinalProject#readme",
   "dependencies": {
+    "node-google-search-trends": "^1.1.0",
     "socket.io": "1.7.3"
   }
 }

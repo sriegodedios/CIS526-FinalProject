@@ -9,6 +9,7 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const trends = require('node-google-search-trends');
 
 // Start the server
 http.listen(PORT, function(){
@@ -24,7 +25,15 @@ var user = '';
 
 // Array of topics
 var topics = ["Football", "Basketball", "Soccer", "Video Games", "Baseball", "Hockey", "Bitcoin", "Random"];
-var topic = topics[Math.floor(Math.random() * topics.length)];;
+var topic;
+trends('United States', 8, function(err, data) {
+    if (err) console.err(err);
+    for (i = 0; i < Object.keys(data).length; i++) {
+        topics[i] = data[i].title[0];
+        //console.log(data[i].title[0]);
+    }
+    topic = topics[Math.floor(Math.random() * topics.length)];
+});
 
 
 // Seconds till canvas reset
