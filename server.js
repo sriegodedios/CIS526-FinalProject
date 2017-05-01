@@ -10,6 +10,7 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const trends = require('node-google-search-trends');
+const bodyParser = require('body-parser');
 
 // Start the server
 http.listen(PORT, function(){
@@ -19,22 +20,35 @@ http.listen(PORT, function(){
 // Load in files
 app.use(express.static('public'));
 
+app.use(bodyParser.urlencoded({
+   extended: false
+}));
+
+app.use(bodyParser.json());
+
 var numUsers = 0;
-var userNames = ["Joe", "Bob", "Bilbo", "Henry", "Hank", "Sean", "Lane", "Krishane", "Ryan", "Shane", "Joe", "Evan", "Kyle", "Matt"];
 var user = '';
+var userNames = [];
+
+app.get('/', function(req, res){
+  res.sendFile('username-form.html');
+});
+
+app.post('/', function(req, res){
+  user = req.body.username;
+  res.sendFile(__dirname + '/public/index.html');
+});
 
 // Array of topics
-var topics = ["Football", "Basketball", "Soccer", "Video Games", "Baseball", "Hockey", "Bitcoin", "Random"];
+var topics = [];
 var topic;
 trends('United States', 8, function(err, data) {
     if (err) console.err(err);
     for (i = 0; i < Object.keys(data).length; i++) {
         topics[i] = data[i].title[0];
-        //console.log(data[i].title[0]);
     }
     topic = topics[Math.floor(Math.random() * topics.length)];
 });
-
 
 // Seconds till canvas reset
 var countdown = 300;
@@ -52,13 +66,10 @@ setInterval(function(){
 
 // When a user connects
 io.on('connection', function(socket){
+  userNames[socket.id] = user;
   numUsers++;
   io.emit('userCount', numUsers);
   console.log("User connected, total: " + numUsers);
-
-  // Assign user a random username
-  //var randName = userNames[Math.floor(Math.random() * userNames.length)];
-  //user = randName;
 
   // Emit welcome message
   socket.emit('welcome', "Welcome ");
@@ -75,15 +86,9 @@ io.on('connection', function(socket){
 
   // Emit message
   socket.on('message', function(text){
-    // Check to see if message is a string
-    /*if(typeof(text) != 'string'){
-      socket.disconnect();
-      return;
-    }*/
     socket.emit('message', text);
     socket.broadcast.emit('message',text);
   });
-
 
   // On user disconnect
   socket.on('disconnect', function(){

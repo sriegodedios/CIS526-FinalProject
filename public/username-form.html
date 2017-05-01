@@ -1,15 +1,13 @@
-<div class="intro-form">
-  <h1 class="text-center">The Whiteboard</h1>
-  <hr>
-  <form class="userform">
+<div class="login-form">
+  <form class="userform" method="post">
     <div id="username-form" class="text-center">
       <h2>Enter a username</h2>
-      <p>(Must be less than 10 characters)</p>
+      <p>(Must be 10 characters or less)</p>
       <label for="username">
-        <input name="username" type="text">
+        <input name="username" type="text" id='loginbox'>
       </label>
       <br>
-      <input type="submit" value="Enter chat" class="btn btn-lg btn-center" id="remove-login">
+      <input type="submit" value="Enter chat" class="btn btn-lg btn-center btn-primary" id="loginbtn">
     </div>
   </form>
 </div>

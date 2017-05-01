@@ -1,6 +1,37 @@
 var name;
 
-(function (){
+// When page loads serve login page
+$(document).ready(function(){
+  $('.main-page').hide();
+  $('#log').load('username-form.html', function(){
+    $('body').css("background-color","gray");
+    $('#title-box').removeClass("col-lg-4");
+    $('#title').removeClass("text-left");
+    $('#title').addClass('text-center');
+    $('#title').css("font-size", "60px");
+    $('#loginbox').on('keydown', function(e){
+      if(e.keyCode === 13){
+        $('#loginbtn').trigger('click');
+      }
+    });
+
+    $('#loginbox').on('input', function(){
+      if($(this).val().length > 10){
+        $(this).val(name);
+        return;
+      }
+      name = $(this).val().trim().replace(/\s/g, '');
+      $(this).val(name);
+    });
+
+    $('#loginbtn').click(function(){
+      $('#log').empty();
+      loadBoard();
+    })
+  });
+});
+
+function loadBoard(){
   var socket = io();
   var canvas = $('#whiteboard')[0];
   var colors = $('.color')
@@ -13,8 +44,13 @@ var name;
 
   var drawing = false;
 
-  name = window.prompt("Enter your username: ");
-
+  // Change classes and css
+  $('body').css("background-color", "white");
+  $('#title-box').addClass("col-lg-4");
+  $('#title').addClass("text-left");
+  $('#title').removeClass('text-center');
+  $('#title').css("font-size", "36px");
+  $(".main-page").show();
 
   // Add events to canvas
   canvas.addEventListener('mousedown', mouseDown, false);
@@ -130,13 +166,14 @@ var name;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
-
+ // Displays that a user is typing
   $('#chat-text').keyup(function(){
     socket.emit('typing', {
       name: name
     });
   });
 
+  // Creates a message when user is typing
   socket.on('typing', function(data){
     $("#typing").text(data.name + " is typing");
     setTimeout(function(){
@@ -144,7 +181,7 @@ var name;
     }, 3000);
   });
 
-  // Displays the number of user online
+  // Displays the number of users online
   socket.on('userCount', function(count){
     $('#numUsers').text("Number of users: " + count);
   });
@@ -207,5 +244,4 @@ var name;
       context.clearRect(0, 0, canvas.width, canvas.height);
     }
   });
-
-})();
+}
