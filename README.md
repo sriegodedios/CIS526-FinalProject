@@ -1,5 +1,9 @@
 # CIS526-FinalProject
-## TODO:
-1) Get trending topics from twitter
-2) Allow users to change/pick username
-3) Clear welcome message after 10 seconds
+## The Whiteboard
+The Whiteboard is a web application where users can choose a username and can anonymously chat with others via drawing or text. 
+
+To install/run
+```
+npm install
+npm start
+```
