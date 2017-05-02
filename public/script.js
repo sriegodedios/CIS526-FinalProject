@@ -10,7 +10,7 @@ $(document).ready(function(){
     $('#title-box').removeClass("col-lg-4");
     $('#title').removeClass("text-left");
     $('#title').addClass('text-center');
-    $('#title').css("font-size", "60px");
+    //$('#title').css("font-size", "60px");
     $('#loginbox').on('keydown', function(e){
       if(e.keyCode === 13){
         $('#loginbtn').trigger('click');
@@ -50,9 +50,9 @@ function loadBoard(){
   // Change classes and css
   $('body').css("background-color", "white");
   $('#title-box').addClass("col-lg-4");
-  $('#title').addClass("text-left");
-  $('#title').removeClass('text-center');
-  $('#title').css("font-size", "36px");
+  //$('#title').addClass("text-left");
+  //$('#title').removeClass('text-center');
+  //$('#title').css("font-size", "36px");
   $("#log").empty();
   $(".main-page").show();
 
@@ -89,6 +89,11 @@ function loadBoard(){
     context.moveTo(x0, y0);
     context.lineTo(x1, y1);
     context.strokeStyle = color;
+    if(color === '#E3D8D5'){
+      context.lineWidth = 35;
+      context.stroke();
+      context.closePath();
+    }
     context.lineWidth = 7;
     context.stroke();
     context.closePath();
@@ -142,6 +147,7 @@ function loadBoard(){
   function colorUpdate(e){
     current.color = e.target.className.split(' ')[1];
     if(e.target.className.split(' ')[1] === 'eraser'){
+      context.lineWidth = 20;
       current.color = ('#E3D8D5');
     }
   }
