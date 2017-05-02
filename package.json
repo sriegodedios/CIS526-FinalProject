@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/LaneEvans/CIS526-FinalProject#readme",
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
     "node-google-search-trends": "^1.1.0",
-    "socket.io": "1.7.3"
+    "socket.io": "^1.7.3"
   }
 }

@@ -30,6 +30,7 @@ var numUsers = 0;
 var user = '';
 var userNames = [];
 
+// Routes for login and index pages
 app.get('/', function(req, res){
   res.sendFile('username-form.html');
 });

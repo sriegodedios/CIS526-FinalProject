@@ -3,6 +3,8 @@ var name;
 // When page loads serve login page
 $(document).ready(function(){
   $('.main-page').hide();
+  var form = document.getElementsByClassName('userform');
+  //$('body').append(form);
   $('#log').load('username-form.html', function(){
     $('body').css("background-color","gray");
     $('#title-box').removeClass("col-lg-4");
@@ -27,6 +29,7 @@ $(document).ready(function(){
     $('#loginbtn').click(function(){
       $('#log').empty();
       loadBoard();
+      return false;
     })
   });
 });
@@ -50,6 +53,7 @@ function loadBoard(){
   $('#title').addClass("text-left");
   $('#title').removeClass('text-center');
   $('#title').css("font-size", "36px");
+  $("#log").empty();
   $(".main-page").show();
 
   // Add events to canvas
