@@ -90,7 +90,7 @@ function loadBoard(){
     context.lineTo(x1, y1);
     context.strokeStyle = color;
     if(color === '#E3D8D5'){
-      context.lineWidth = 35;
+      context.lineWidth = 40;
       context.stroke();
       context.closePath();
     }
