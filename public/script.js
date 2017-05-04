@@ -4,7 +4,6 @@ var name;
 $(document).ready(function(){
   $('.main-page').hide();
   var form = document.getElementsByClassName('userform');
-  //$('body').append(form);
   $('#log').load('username-form.html', function(){
     $('body').css("background-color","gray");
     $('#title-box').removeClass("col-lg-4");
@@ -37,7 +36,7 @@ $(document).ready(function(){
 function loadBoard(){
   var socket = io();
   var canvas = $('#whiteboard')[0];
-  var colors = $('.color')
+  var colors = $('.color');
   var context = canvas.getContext('2d');
 
   // Current color

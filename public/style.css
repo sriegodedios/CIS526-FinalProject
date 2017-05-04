@@ -60,7 +60,6 @@ body {
   margin-bottom: 60px;
 }
 
-
 .colors{
   position: absolute;
 }
@@ -95,6 +94,10 @@ body {
   text-align: right;
 }
 
+.color:hover{
+  border: solid 3px gold;
+}
+
 
 .color.black{ background-color: black;}
 .color.purple{background-color: purple;}
@@ -115,4 +118,7 @@ body {
 .color.eraser{
   background-color: #E3D8D5;
   border: 1px solid black;
+}
+.color.eraser:hover{
+  border: solid 3px gold;
 }
